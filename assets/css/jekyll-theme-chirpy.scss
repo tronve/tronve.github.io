@@ -1,0 +1,182 @@
+---
+---
+
+@use 'abstracts/variables' with (
+  $theme: '{{ site.theme_mode }}'
+);
+
+/* prettier-ignore */
+@use 'main
+{%- if jekyll.environment == 'production' -%}
+  .bundle
+{%- endif -%}
+';
+
+/* ================================================================
+   tronve theme — 흰 캔버스 + 파란색 단일 포인트, 차분한 에디토리얼 톤
+   (웹폰트는 _includes/metadata-hook.html 에서 불러옵니다)
+   ================================================================ */
+
+:root {
+  --tv-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  --tv-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo,
+    Consolas, monospace;
+}
+
+/* ---------- 팔레트 ---------- */
+@mixin tv-light {
+  --main-bg: #ffffff;
+  --main-border-color: #eef0f3;
+  --text-color: #2b2f36;
+  --text-muted-color: #7c828a;
+  --heading-color: #0a0b0d;
+  --label-color: #5b616e;
+
+  --link-color: #0052ff;
+  --link-underline-color: #c7d6ff;
+
+  --sidebar-bg: #ffffff;
+  --sidebar-border-color: #eef0f3;
+  --sidebar-muted-color: #5b616e;
+  --sidebar-active-color: #0052ff;
+  --sidebar-hover-bg: #f2f5ff;
+  --site-title-color: #0a0b0d;
+  --site-subtitle-color: #7c828a;
+
+  --topbar-bg: rgb(255 255 255 / 80%);
+  --card-bg: #ffffff;
+  --card-hover-bg: #f7f7f7;
+  --card-shadow: 0 4px 12px rgb(0 0 0 / 4%), 0 0 0 1px #dee1e6;
+
+  --tag-border: #eef0f3;
+  --tag-hover: #dce7ff;
+  --search-tag-bg: #eef0f3;
+  --toc-highlight: #0052ff;
+  --btn-share-hover-color: #0052ff;
+  --checkbox-checked-color: #0052ff;
+
+  --blockquote-border-color: #dee1e6;
+  --blockquote-text-color: #7c828a;
+  --tb-border-color: #dee1e6;
+  --tb-odd-bg: #fafbfc;
+
+  --highlight-bg-color: #f7f7f7;
+  --inline-code-bg: #eef0f3;
+
+  --prompt-info-bg: #eef3ff;
+  --prompt-info-icon-color: #0052ff;
+}
+
+@mixin tv-dark {
+  --main-bg: #0a0b0d;
+  --main-border-color: #1f2228;
+  --text-color: #c7ccd4;
+  --text-muted-color: #8b919a;
+  --heading-color: #ffffff;
+  --label-color: #a8acb3;
+
+  --link-color: #4d82ff;
+  --link-underline-color: #2f4a86;
+
+  --sidebar-bg: #0a0b0d;
+  --sidebar-border-color: #1f2228;
+  --sidebar-muted-color: #a8acb3;
+  --sidebar-active-color: #ffffff;
+  --sidebar-hover-bg: #16181c;
+  --site-title-color: #ffffff;
+  --site-subtitle-color: #8b919a;
+
+  --topbar-bg: rgb(10 11 13 / 80%);
+  --card-bg: #16181c;
+  --card-hover-bg: #1c1f24;
+  --card-shadow: 0 4px 12px rgb(0 0 0 / 30%), 0 0 0 1px #23262c;
+
+  --tag-border: #23262c;
+  --tag-hover: #1f3566;
+  --search-tag-bg: #16181c;
+  --toc-highlight: #4d82ff;
+  --btn-share-hover-color: #4d82ff;
+  --checkbox-checked-color: #4d82ff;
+
+  --blockquote-border-color: #23262c;
+  --blockquote-text-color: #8b919a;
+  --tb-border-color: #23262c;
+  --tb-odd-bg: #111316;
+
+  --highlight-bg-color: #16181c;
+  --inline-code-bg: #1c1f24;
+
+  --prompt-info-bg: #0f1830;
+  --prompt-info-icon-color: #4d82ff;
+}
+
+/* 테마와 같은 선택자를 뒤에 다시 선언해 덮어씀 */
+:root[data-bs-theme='light'] {
+  @include tv-light;
+}
+
+:root[data-bs-theme='dark'] {
+  @include tv-dark;
+}
+
+:root:not([data-bs-theme]) {
+  @media (prefers-color-scheme: light) {
+    @include tv-light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    @include tv-dark;
+  }
+}
+
+/* ---------- 타이포그래피 ---------- */
+body {
+  font-family: var(--tv-font-sans);
+}
+
+h1, h2, h3, h4, h5, h6,
+#sidebar .site-title,
+#topbar-title {
+  font-family: var(--tv-font-sans);
+  letter-spacing: -0.02em;
+}
+
+#sidebar .site-title {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+code, pre, kbd, samp {
+  font-family: var(--tv-font-mono);
+}
+
+/* ---------- 형태 ---------- */
+
+/* 알약 태그 */
+.post-tag {
+  border-radius: 100px !important;
+}
+
+/* 카드: 둥근 모서리 */
+.card,
+#post-list .card-wrapper .card {
+  border-radius: 16px;
+}
+
+/* 이미지, 코드 블록 */
+.content img,
+.preview-img img {
+  border-radius: 12px;
+}
+
+div[class^='language-'],
+.highlight {
+  border-radius: 12px;
+}
+
+/* 본문 링크: 얇은 밑줄 */
+.content a:not(.img-link) {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
